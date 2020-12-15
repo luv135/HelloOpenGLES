@@ -30,4 +30,5 @@ JNIEXPORT void JNICALL
 Java_com_luowei_opengles_MyRenderer_native_1SurfaceChanged(JNIEnv *env, jobject thiz, jint width,
                                                            jint height) {
     glViewport(0, 0, width, height);
+    triangle->SurfaceChanged(width,height);
 }

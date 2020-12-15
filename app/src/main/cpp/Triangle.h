@@ -22,6 +22,7 @@ public:
     unsigned int VAO;
     unsigned int VBO;
 
+    void SurfaceChanged(int width, int height);
 };
 
 
