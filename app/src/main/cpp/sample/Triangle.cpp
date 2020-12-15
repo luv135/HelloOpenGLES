@@ -4,10 +4,10 @@
 
 #include "Triangle.h"
 #include <GLES3/gl3.h>
-#include "LogUtil.h"
-#include "glm/glm.hpp"
-#include "glm/gtx/transform.hpp"
-#include "glm/ext.hpp"
+#include "../utils/LogUtil.h"
+#include "../glm/glm.hpp"
+#include "../glm/gtx/transform.hpp"
+#include "../glm/ext.hpp"
 
 
 Triangle::Triangle() {
@@ -121,7 +121,7 @@ int Triangle::Init() {
     return 0;
 }
 
-int Triangle::Draw() {
+int Triangle::Draw() const {
 
     glClearColor(0.2f, .3f, .3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -140,7 +140,7 @@ void uniformMatrix4F(int program, const char *name, glm::mat4 mat4) {
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat4));
 }
 
-void Triangle::SurfaceChanged(int width, int height) {
+void Triangle::SurfaceChanged(int width, int height) const {
 
     //模型矩阵
     glm::mat4 model = glm::mat4(1.0f);

@@ -16,13 +16,13 @@ public:
 
     int Init();
 
-    int Draw();
+    int Draw() const;
 
     GLuint shaderProgram;
     unsigned int VAO;
     unsigned int VBO;
 
-    void SurfaceChanged(int width, int height);
+    void SurfaceChanged(int width, int height) const;
 };
 
 

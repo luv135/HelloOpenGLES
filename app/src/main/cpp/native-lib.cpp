@@ -1,8 +1,8 @@
 #include <jni.h>
 #include <string>
 #include <GLES3/gl3.h>
-#include "LogUtil.h"
-#include "Triangle.h"
+#include "utils/LogUtil.h"
+#include "sample/Triangle.h"
 
 
 Triangle *triangle = NULL;
