@@ -1,8 +1,10 @@
 package com.luowei.opengles
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
+import java.nio.ByteBuffer
 
 class MyGLSurfaceView : GLSurfaceView {
     constructor(context: Context?) : super(context)
@@ -35,6 +37,17 @@ class MyGLSurfaceView : GLSurfaceView {
         setEGLContextClientVersion(2)
         renderer = MyRenderer()
         setRenderer(renderer)
+        showBitmap()
     }
+
+    fun showBitmap(){
+        val bitmap = BitmapFactory.decodeStream(context.assets.open("container.png"))
+        val bytes = bitmap.byteCount
+        val buf = ByteBuffer.allocate(bytes)
+        bitmap.copyPixelsToBuffer(buf)
+        val byteArray = buf.array()
+        renderer.showBitmap(bitmap.width, bitmap.height, byteArray)
+    }
+
 
 }

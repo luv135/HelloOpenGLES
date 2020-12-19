@@ -7,6 +7,8 @@
 
 
 #include <GLES3/gl3.h>
+#include <sys/types.h>
+#include "../util/ImageDef.h"
 
 class Triangle {
 public:
@@ -21,8 +23,11 @@ public:
     GLuint shaderProgram;
     unsigned int VAO;
     unsigned int VBO;
-
+    GLuint textureId;
+    NativeImage m_RenderImage;
     void SurfaceChanged(int width, int height) const;
+
+    void LoadImage(NativeImage *pImage);
 };
 
 
