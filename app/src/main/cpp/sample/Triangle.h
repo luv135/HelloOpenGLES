@@ -23,6 +23,7 @@ public:
     GLuint shaderProgram;
     unsigned int VAO;
     unsigned int VBO;
+    unsigned int EBO;
     GLuint textureId;
     NativeImage m_RenderImage;
     void SurfaceChanged(int width, int height) const;
