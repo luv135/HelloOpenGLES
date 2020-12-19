@@ -21,10 +21,10 @@ int Triangle::Init() {
 //    const GLubyte *version = glGetString(GL_VERSION);
 //    LOGCATD("version=%s", version);
 
-    const char *vertexShaderSource = "#version 100\n"
-                                     "attribute vec3 aPos;\n"
-                                     "varying vec2 TexCoord;\n"
-                                     "attribute vec2 aTextureCoord;\n"
+    const char *vertexShaderSource = "#version 300 es\n"
+                                     "layout(location=0) in vec3 aPos;\n"
+                                     "layout(location=1) in  vec2 aTextureCoord;\n"
+                                     "out vec2 TexCoord;\n"
                                      "uniform mat4 model;\n"
                                      "uniform mat4 view;\n"
                                      "uniform mat4 projection;\n"
@@ -35,14 +35,14 @@ int Triangle::Init() {
                                      "    TexCoord = aTextureCoord;\n"
                                      "}\n";
 
-    const char *fragmentShaderSource = "#version 100\n"
-                                       "precision mediump float;\n"
-                                       "varying vec2 TexCoord;\n"
+    const char *fragmentShaderSource = "#version 300 es\n"
+                                       "out vec4 FragColor;\n"
+                                       "in vec2 TexCoord;\n"
                                        "uniform sampler2D texture1;"
                                        "void main()\n"
                                        "{\n"
 //                                                                                                                     "   gl_FragColor = vec4(1.0, 1.0, 0.2, 1.0);\n"
-                                       "   gl_FragColor = texture2D(texture1, TexCoord);\n"
+                                       "   FragColor = texture(texture1, TexCoord);\n"
                                        "}\n";
 
 
