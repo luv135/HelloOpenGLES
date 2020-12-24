@@ -45,9 +45,10 @@ GLuint GLUtils::CreateProgram(const char *pVertexShaderSource, const char *pFrag
         program = glCreateProgram();
         if (program) {
             glAttachShader(program, vertexShaderHandle);
-            CheckGLError("glAttachShader");
+//            LOGCATD("vertex %s", pVertexShaderSource);
+            CheckGLError("glAttachShader vertexShaderHandle");
             glAttachShader(program, fragShaderHandle);
-            CheckGLError("glAttachShader");
+            CheckGLError("glAttachShader fragShaderHandle");
             glLinkProgram(program);
             GLint linkStatus = GL_FALSE;
             glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);

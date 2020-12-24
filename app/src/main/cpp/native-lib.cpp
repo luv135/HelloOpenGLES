@@ -5,8 +5,8 @@
 #include "sample/Triangle.h"
 #include "sample/BgRender.h"
 
-//Triangle *triangle = new Triangle();
-BgRender *render = new BgRender();
+Triangle *triangle = new Triangle();
+//BgRender *render = new BgRender();
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_luowei_opengles_sample_MainActivity_stringFromJNI(
@@ -18,19 +18,19 @@ Java_com_luowei_opengles_sample_MainActivity_stringFromJNI(
 JNIEXPORT void JNICALL
 Java_com_luowei_opengles_MyRenderer_native_1SurfaceCreated(JNIEnv *env, jobject thiz) {
     LOGCATD("init");
-    render->CreateGlesEnv();
-    render->Init();
+//    render->CreateGlesEnv();
+    triangle->Init();
 }
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_luowei_opengles_MyRenderer_native_1onDrawFrame(JNIEnv *env, jobject thiz) {
-    render->Draw();
+    triangle->Draw();
 }extern "C"
 JNIEXPORT void JNICALL
 Java_com_luowei_opengles_MyRenderer_native_1SurfaceChanged(JNIEnv *env, jobject thiz, jint width,
                                                            jint height) {
     glViewport(0, 0, width, height);
-//    render->SurfaceChanged(width, height);
+    triangle->SurfaceChanged(width, height);
 }extern "C"
 JNIEXPORT void JNICALL
 Java_com_luowei_opengles_MyRenderer_native_1showBitmap(JNIEnv *env, jobject thiz, jint width,
@@ -45,7 +45,7 @@ Java_com_luowei_opengles_MyRenderer_native_1showBitmap(JNIEnv *env, jobject thiz
     nativeImage.width = width;
     nativeImage.height = height;
     nativeImage.ppPlane[0] = buf;
-//    triangle->LoadImage(&nativeImage);
+    triangle->LoadImage(&nativeImage);
     delete[] buf;
     env->DeleteLocalRef(imageData);
 }

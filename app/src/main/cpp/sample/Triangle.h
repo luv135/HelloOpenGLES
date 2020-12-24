@@ -20,15 +20,29 @@ public:
 
     int Draw() const;
 
+    int FboCreate();
+
+
     GLuint shaderProgram;
     unsigned int VAO;
     unsigned int VBO;
     unsigned int EBO;
     GLuint textureId;
     NativeImage m_RenderImage;
-    void SurfaceChanged(int width, int height) const;
+    void SurfaceChanged(int width, int height) ;
 
     void LoadImage(NativeImage *pImage);
+
+    GLuint m_FboTexutreId;
+    GLuint m_FboId;
+    GLuint m_FboProgram;
+    GLuint FBO_VAO;
+    GLuint FBO_EBO;
+    GLuint FBO_VBO;
+
+
+    int screenW;
+    int screenH;
 };
 
 
