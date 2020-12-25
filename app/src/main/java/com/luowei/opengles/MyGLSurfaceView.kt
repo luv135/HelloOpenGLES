@@ -62,14 +62,14 @@ class MyGLSurfaceView : GLSurfaceView {
                 downY = event.y
             }
             MotionEvent.ACTION_MOVE -> {
-                val dx = (event.x - downX) / 1000
-                val dy = (event.y - downY) / 1000
+                val dx = (event.x - downX) / 500
+                val dy = (event.y - downY) / 500
                 Log.d(TAG, "onTouchEvent: $dx, $dy")
                 renderer.native_touch(totalDx+dx, totalDy+dy)
             }
             MotionEvent.ACTION_UP -> {
-                val dx = (event.x - downX) / 1000
-                val dy = (event.y - downY) / 1000
+                val dx = (event.x - downX) / 500
+                val dy = (event.y - downY) / 500
                 totalDx += dx
                 totalDy += dy
             }

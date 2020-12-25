@@ -52,19 +52,75 @@ int Triangle::Init() {
 //    GLuint vertexShader, fragmentShader;
     shaderProgram = GLUtils::CreateProgram(vertexShaderSource, fragmentShaderSource);
     float vertices[] = {
-            //顶点坐标--------纹理坐标
-            -0.5f, 0.5f, 0.0f, 0.0f, 0.0f,
-            -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-            0.5f, -0.5f, 0.0f, 1.0f, 1.0f,
-            0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+            0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+            0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+            0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+            -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+            -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+            0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+            0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+            0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+            0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+            -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
     unsigned int indices[] = {
-            0, 1, 2,
-            2, 0, 3
+//            0, 2, 1,
+//            0, 2, 3,
+
+            3, 6, 2,
+            3, 6, 7,
+
+
+
+//            3, 2, 6,
+//            6, 3, 7,
+//
+//            7, 6, 5,
+//            5, 7, 4,
+//
+//            4, 5, 0,
+//            0, 5, 1,
+//
+//            1, 5, 6,
+//            1, 2, 6,
+//
+//            0, 3, 7,
+//            0, 7, 4
     };
-
-
+//    启动测度测试
+    glEnable(GL_DEPTH_TEST);
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
@@ -141,14 +197,14 @@ int Triangle::Draw() const {
     // 普通渲染
     glViewport(0, 0, screenW, screenH);
     glClearColor(0.2f, .3f, .3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
     uniformMatrix4F(shaderProgram, "model", model);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
-//    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (const void *) 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (const void *) 0);
     return 0;
 }
 
