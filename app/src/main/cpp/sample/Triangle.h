@@ -9,6 +9,7 @@
 #include <GLES3/gl3.h>
 #include <sys/types.h>
 #include "../util/ImageDef.h"
+#include "../glm/glm.hpp"
 
 class Triangle {
 public:
@@ -43,6 +44,8 @@ public:
 
     int screenW;
     int screenH;
+    glm::mat4 model;
+    void touch(float dx, float dy);
 };
 
 

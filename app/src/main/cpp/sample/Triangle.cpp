@@ -11,6 +11,7 @@
 #include "../util/GLUtils.h"
 
 Triangle::Triangle() {
+    model = glm::mat4(1.0f);
 }
 
 Triangle::~Triangle() {
@@ -21,7 +22,7 @@ Triangle::~Triangle() {
 int Triangle::Init() {
 //    const GLubyte *version = glGetString(GL_VERSION);
 //    LOGCATD("version=%s", version);
-    FboCreate();
+//    FboCreate();
 
     const char *vertexShaderSource = "#version 300 es\n"
                                      "layout(location=0) in vec3 aPos;\n"
@@ -43,8 +44,8 @@ int Triangle::Init() {
                                        "uniform sampler2D texture1;"
                                        "void main()\n"
                                        "{\n"
-//                                       "   gl_FragColor = vec4(1.0, 1.0, 0.2, 1.0);\n"
-                                                                              "   FragColor = texture(texture1, TexCoord);\n"
+                                       //                                       "   gl_FragColor = vec4(1.0, 1.0, 0.2, 1.0);\n"
+                                       "   FragColor = texture(texture1, TexCoord);\n"
                                        "}\n";
 
 
@@ -114,21 +115,28 @@ int Triangle::Init() {
     return 0;
 }
 
+void uniformMatrix4F(int program, const char *name, glm::mat4 mat4) {
+    glUseProgram(program);
+    int location = glGetUniformLocation(program, name);
+    //std::cout << "location = " << location << std::endl;
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat4));
+}
+
 int Triangle::Draw() const {
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glViewport(0, 0, m_RenderImage.width, m_RenderImage.height);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FboId);
-    // fbo off screen rendering
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glUseProgram(m_FboProgram);
-    glBindVertexArray(FBO_VAO);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureId);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (const void *) 0);
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+//    glViewport(0, 0, m_RenderImage.width, m_RenderImage.height);
+//    glBindFramebuffer(GL_FRAMEBUFFER, m_FboId);
+//    // fbo off screen rendering
+//    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glUseProgram(m_FboProgram);
+//    glBindVertexArray(FBO_VAO);
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, textureId);
+//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (const void *) 0);
+//    glBindVertexArray(0);
+//    glBindTexture(GL_TEXTURE_2D, 0);
+//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // 普通渲染
     glViewport(0, 0, screenW, screenH);
@@ -136,19 +144,14 @@ int Triangle::Draw() const {
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
+    uniformMatrix4F(shaderProgram, "model", model);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_FboTexutreId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
 //    glDrawArrays(GL_TRIANGLES, 0, 3);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (const void *) 0);
     return 0;
 }
 
-void uniformMatrix4F(int program, const char *name, glm::mat4 mat4) {
-    glUseProgram(program);
-    int location = glGetUniformLocation(program, name);
-    //std::cout << "location = " << location << std::endl;
-    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat4));
-}
 
 void Triangle::SurfaceChanged(int width, int height) {
     screenW = width;
@@ -200,7 +203,7 @@ int Triangle::FboCreate() {
                                      "uniform mat4 projection;\n"
                                      "void main()\n"
                                      "{\n"
-//                                     "   gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
+                                     //                                     "   gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
                                      "   gl_Position =  vec4(aPos, 1.0);\n"
                                      "    TexCoord = aTextureCoord;\n"
                                      "}\n";
@@ -211,7 +214,7 @@ int Triangle::FboCreate() {
                                        "uniform sampler2D texture1;"
                                        "void main()\n"
                                        "{\n"
-//                                       "   gl_FragColor = vec4(1.0, 0.0, 0.2, 1.0);\n"
+                                       //                                       "   gl_FragColor = vec4(1.0, 0.0, 0.2, 1.0);\n"
                                        "   FragColor = texture(texture1, TexCoord);\n"
                                        "}\n";
 
@@ -268,6 +271,7 @@ int Triangle::FboCreate() {
 
     //------------------------------------
 
+    // 创建 2D 纹理
     glGenTextures(1, &m_FboTexutreId);
     glBindTexture(GL_TEXTURE_2D, m_FboTexutreId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -276,7 +280,7 @@ int Triangle::FboCreate() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, GL_NONE);
 
-
+    // 创建 FBO
     glGenFramebuffers(1, &m_FboId);
     glBindFramebuffer(GL_FRAMEBUFFER, m_FboId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -296,4 +300,11 @@ int Triangle::FboCreate() {
     }
     glBindTexture(GL_TEXTURE_2D, GL_NONE);
     return 0;
+}
+
+void Triangle::touch(float dx, float dy) {
+    model = glm::mat4(1.0f);
+    model = glm::rotate(model, dy, glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, dx, glm::vec3(0.0f, 1.0f, 0.0f));
+
 }

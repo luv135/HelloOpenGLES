@@ -48,4 +48,8 @@ Java_com_luowei_opengles_MyRenderer_native_1showBitmap(JNIEnv *env, jobject thiz
     triangle->LoadImage(&nativeImage);
     delete[] buf;
     env->DeleteLocalRef(imageData);
+}extern "C"
+JNIEXPORT void JNICALL
+Java_com_luowei_opengles_MyRenderer_native_1touch(JNIEnv *env, jobject thiz, jfloat dx, jfloat dy) {
+    triangle->touch(dx,dy);
 }
