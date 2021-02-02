@@ -47,7 +47,7 @@ class MyGLSurfaceView : GLSurfaceView {
     }
 
     fun showBitmap() {
-        val bitmap = BitmapFactory.decodeStream(context.assets.open("container.png"))
+        val bitmap = BitmapFactory.decodeStream(context.assets.open("floor.png"))
         val bytes = bitmap.byteCount
         val buf = ByteBuffer.allocate(bytes)
         bitmap.copyPixelsToBuffer(buf)
@@ -64,7 +64,7 @@ class MyGLSurfaceView : GLSurfaceView {
             MotionEvent.ACTION_MOVE -> {
                 val dx = (event.x - downX) / 500
                 val dy = (event.y - downY) / 500
-                Log.d(TAG, "onTouchEvent: $dx, $dy")
+//                Log.d(TAG, "onTouchEvent: $dx, $dy")
                 renderer.native_touch(totalDx+dx, totalDy+dy)
             }
             MotionEvent.ACTION_UP -> {

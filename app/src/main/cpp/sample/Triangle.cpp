@@ -20,12 +20,8 @@ Triangle::~Triangle() {
 
 
 int Triangle::Init() {
-//    const GLubyte *version = glGetString(GL_VERSION);
-//    LOGCATD("version=%s", version);
-//    FboCreate();
-
     const char *vertexShaderSource = "#version 300 es\n"
-                                     "layout(location=0) in vec3 aPos;\n"
+                                     "layout (location = 0) in vec3 aPos;\n"
                                      "layout(location=1) in  vec2 aTextureCoord;\n"
                                      "out vec2 TexCoord;\n"
                                      "uniform mat4 model;\n"
@@ -33,100 +29,78 @@ int Triangle::Init() {
                                      "uniform mat4 projection;\n"
                                      "void main()\n"
                                      "{\n"
-                                     "   gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
-                                     //                                                                          "   gl_Position =  vec4(aPos, 1.0);\n"
+                                     "    gl_Position = projection * view * model * vec4(aPos, 1.0f);\n"
                                      "    TexCoord = aTextureCoord;\n"
+
                                      "}\n";
 
     const char *fragmentShaderSource = "#version 300 es\n"
                                        "out vec4 FragColor;\n"
                                        "in vec2 TexCoord;\n"
                                        "uniform sampler2D texture1;"
+//                                       "uniform vec3 objectColor;\n"
+                                      // "uniform vec3 lightColor;\n"
                                        "void main()\n"
                                        "{\n"
-                                       //                                       "   gl_FragColor = vec4(1.0, 1.0, 0.2, 1.0);\n"
+                                       //"   vec4 objectColorff = texture(texture1, TexCoord);\n"
                                        "   FragColor = texture(texture1, TexCoord);\n"
+                                       //"    FragColor = vec4(lightColor * vec3(objectColorff), 1.0f);\n"
                                        "}\n";
 
 
 //    GLuint vertexShader, fragmentShader;
     shaderProgram = GLUtils::CreateProgram(vertexShaderSource, fragmentShaderSource);
     float vertices[] = {
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-            0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+            0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+            -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
 
-            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+            0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+            0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
 
-            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
     };
 
-    unsigned int indices[] = {
-//            0, 2, 1,
-//            0, 2, 3,
 
-            3, 6, 2,
-            3, 6, 7,
-
-
-
-//            3, 2, 6,
-//            6, 3, 7,
-//
-//            7, 6, 5,
-//            5, 7, 4,
-//
-//            4, 5, 0,
-//            0, 5, 1,
-//
-//            1, 5, 6,
-//            1, 2, 6,
-//
-//            0, 3, 7,
-//            0, 7, 4
-    };
-//    启动测度测试
-    glEnable(GL_DEPTH_TEST);
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+//    glGenBuffers(1, &EBO);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &VBO);
     // 绑定到 GL_ARRAY_BUFFER
@@ -179,32 +153,22 @@ void uniformMatrix4F(int program, const char *name, glm::mat4 mat4) {
 }
 
 int Triangle::Draw() const {
-//    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-//    glViewport(0, 0, m_RenderImage.width, m_RenderImage.height);
-//    glBindFramebuffer(GL_FRAMEBUFFER, m_FboId);
-//    // fbo off screen rendering
-//    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glUseProgram(m_FboProgram);
-//    glBindVertexArray(FBO_VAO);
-//    glActiveTexture(GL_TEXTURE0);
-//    glBindTexture(GL_TEXTURE_2D, textureId);
-//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (const void *) 0);
-//    glBindVertexArray(0);
-//    glBindTexture(GL_TEXTURE_2D, 0);
-//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    // 普通渲染
-    glViewport(0, 0, screenW, screenH);
+//    启动深度测试
+    glEnable(GL_DEPTH_TEST);
     glClearColor(0.2f, .3f, .3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glUseProgram(shaderProgram);
+
     glBindVertexArray(VAO);
+    glUseProgram(shaderProgram);
+    //glUniform3f(glGetUniformLocation(shaderProgram, "lightColor"),  1.0f, 1.0f, 1.0f);
+//    glUniform3f(glGetUniformLocation(shaderProgram, "objectColor"), 1.0f, 0.5f, 0.31f);
     uniformMatrix4F(shaderProgram, "model", model);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 //    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (const void *) 0);
+    glBindVertexArray(0);
     return 0;
 }
 
@@ -213,7 +177,7 @@ void Triangle::SurfaceChanged(int width, int height) {
     screenW = width;
     screenH = height;
     //模型矩阵
-    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::mat4(1.0f);
     // Model matrix
     model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 //    model = glm::rotate(model, radiansX, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -362,5 +326,14 @@ void Triangle::touch(float dx, float dy) {
     model = glm::mat4(1.0f);
     model = glm::rotate(model, dy, glm::vec3(1.0f, 0.0f, 0.0f));
     model = glm::rotate(model, dx, glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+
+//    GLfloat radius = 10.0f;
+//    GLfloat camX = sin(dx) * radius;
+//    GLfloat camZ = cos(dx) * radius;
+
+//    view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+
 
 }

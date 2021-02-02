@@ -27,7 +27,7 @@ public:
     GLuint shaderProgram;
     unsigned int VAO;
     unsigned int VBO;
-    unsigned int EBO;
+//    unsigned int EBO;
     GLuint textureId;
     NativeImage m_RenderImage;
     void SurfaceChanged(int width, int height) ;
@@ -45,6 +45,7 @@ public:
     int screenW;
     int screenH;
     glm::mat4 model;
+    glm::mat4 view;;
     void touch(float dx, float dy);
 };
 
